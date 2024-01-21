@@ -70,3 +70,21 @@ When a new `.df` is put in `/app/schema` (read: its mounted location on the host
 - stop and start the db (see above). The db is updated offline
 - run `docker exec -d /app/scripts/update-schema.sh`. This is online and it may fail subsequently.
 
+## docker compose
+The most logical things is running the db from a docker compose stack. An example `docker-compose.yaml`:
+```
+version: "3.8"
+
+services:
+  sports2020-db:
+    image: docker.io/devbfvio/openedge-db:12.8.0
+    volumes:
+      - c:/docker/sports2020/db:/app/db
+      - c:/docker/sports2020/schema:/app/schema
+      - c:/docker/license/oe-12.8/oe128-db-dev-progress.cfg:/usr/dlc/progress.cfg
+    ports:
+      - 10000-10010:10000-10010
+    environment:
+      - DBNAME=sports2020
+```
+
