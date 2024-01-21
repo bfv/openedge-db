@@ -15,16 +15,16 @@
 #
 
 function startServer() {
-    proserve /app/db/$DBNAME -pf /app/db/db.pf
+    proserve /app/db/${DBNAME} -pf /app/db/db.pf
     echo "database started..."
     ps -ef
 }
 
 function stopServer() {
-    echo "attempt to bring down $DBNAME gracefully"
-    if [ -f "/app/db/$DBNAME.lk" ]; then
+    echo "attempt to bring down ${DBNAME} gracefully"
+    if [ -f "/app/db/${DBNAME}.lk" ]; then
         echo ".lk found; execute proshut"
-        proshut /app/db/$DBNAME -by
+        proshut /app/db/${DBNAME} -by
         echo "database stopped..."
     fi
     exit 0
@@ -48,16 +48,25 @@ function getDbname() {
 
 function initDb() {
 
-    if [[ -f $DBNAME.lk ]]; then
-        echo $DBNAME.lk found, exiting...
+    if [[ -f ${DBNAME}.lk ]]; then
+        echo ${DBNAME}.lk found, exiting...
         exit 1
     fi
 
-    if [[ ! -f $DBNAME.db ]]; then 
-        if [[ -f $DBNAME.df ]] && [[ -f $DBNAME.st ]] ; then 
+    if [[ ! -f ${DBNAME}.db ]]; then 
+
+        if [[ ! -f ${DBNAME}.df ]] && [[ -f ${DEFDIR}/${DBNAME}.df ]] ; then 
+            cp ${DEFDIR}/${DBNAME}.df .
+        fi
+
+        if [[ ! -f ${DBNAME}.st ]] && [[ -f ${DEFDIR}/${DBNAME}.st ]] ; then 
+            cp ${DEFDIR}/${DBNAME}.st .
+        fi
+
+        if [[ -f ${DBNAME}.df ]] && [[ -f ${DBNAME}.st ]] ; then 
           echo "db not found, create one" >> dbstart.log
           $DLC/ant/bin/ant -f /app/scripts/database-tasks.xml -lib $DLC/pct/PCT.jar -DDBNAME=${DBNAME} createdb
-          /app/scripts/hash.sh $DBNAME.df > ${DBNAME}.schema.hash
+          $HASH ${DBNAME}.df > ${DBNAME}.schema.hash
         else
             echo database \"${DBNAME}\" not found, no df for building db found
             exit 1
@@ -97,12 +106,12 @@ trap "stopServer" SIGINT SIGTERM
 
 startServer
 
-pidfile=/app/db/$DBNAME.lk
+pidfile=/app/db/${DBNAME}.lk
 
 sleep 2
 
 # make sure the logs are visible
-tail -f /app/db/$DBNAME.lg &
+tail -f /app/db/${DBNAME}.lg &
 
 # Loop while the pidfile and the process exist
 # while [ -f $pidfile ] && [ ps -p $PID >/dev/null ] ; do
