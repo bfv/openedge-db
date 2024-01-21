@@ -1,3 +1,72 @@
 
 # OpenEdge db image     
 
+This docker images facilitates running an OpenEdge db in a Docker container. Apart from this it facilitates builing and/or updating the database from a given `.df`/`.st`.
+
+## volumes
+The following volumes are important for running the database:
+
+`/app/db` - the db files will reside here
+`/app/schema` - the location where `.df` and/or `.st` files are located
+`/usr/dlc/progress.cfg` - location where the `.cfg` file MUST reside (otherwise ESM kicks in)
+
+When running the container these volume are mapped via the `-v` parameter.
+For example:
+```
+docker run -d ^
+    -v c:/sports2020/db:/app/db ^
+    -v c:/sports2020/schema:/app/schema ^
+    -v c:sports2020/progress.cfg:/usr/dlc/progress.cfg ^
+    -p 10000-10010:10000-10010
+    --env DBNAME=sports2020 ^
+    docker.io/devbfvio/openedge-db:12.8.0
+```
+
+## database name
+The scripts in the container operate under the assumption that the env var `DBNAME` is set, hence:
+`--env DBNAME=sports2020`.
+
+## schema / structure files
+The `.df` and `.st` files (in either /app/schema or /app/db) should have the same name as the database.
+
+## startup sequence
+The first thing is establishing the DBNAME. If ${DBNAME} is empty is database name is derived. The first `.db` file is taken to get the database name.
+
+Once the database name is established the initialization starts.
+- if a `.lk` is found the container exits
+- if a `.db` files is not found, the process searches for a `.df` and `.st` in `/app/schema` 
+  - if one of these is not found, the container exits
+  - otherwise a empty database is build based on the `.df` and `.st`. 
+  - `/usr/dlc/empty8` is copied to the database (todo: UTF-8 support need)
+  - the `.df` file is hashed and this hash is put in `/app/db/<dbname>.schema.hash` 
+- otherwise (the database is already there)
+  - if `/app/schema/<dbname>.df` is present this is hashed and compared to `/app/db/<dbname>.schema.hash`
+  - if they differ the schema needs to be updated (create new empty db, created delta, apply delta)
+  
+At this point the container is either exited or has an up to date database (schema wise)
+The database is started:
+```
+proserve /app/db/${DBNAME} -pf /app/db/db.pf
+```
+
+This implies that a `db.pf` MUST be present.
+
+## `db.pf`
+This file should container at least:
+```
+-S 10000
+-minport 10001
+-maxport 10010
+```
+
+You can use whatever ports you like.
+
+## stopping the database
+The database is gracefully shut down whenever an `SIGINT` or `SIGTERM` signal is sent to the container.
+`proshut` executes and the db goes down, no `.lk` is left. Ready for the next start up.
+
+## updating the schema
+When a new `.df` is put in `/app/schema` (read: its mounted location on the host) there are two options:
+- stop and start the db (see above). The db is updated offline
+- run `docker exec -d /app/scripts/update-schema.sh`. This is online and it may fail subsequently.
+
