@@ -4,9 +4,9 @@ ENV JAVA_HOME=/opt/java/openjdk
 COPY --from=eclipse-temurin:17.0.9_9-jdk $JAVA_HOME $JAVA_HOME
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
-ADD PROGRESS_OE_12.7.0_LNX_64.tar.gz /install/openedge
+ADD PROGRESS_OE_12.8.0_LNX_64.tar.gz /install/openedge
 
-COPY oe127-db-dev-response.ini /install/openedge/response.ini
+COPY oe128-db-dev-response.ini /install/openedge/response.ini
 ENV TERM xterm
 
 RUN /install/openedge/proinst -b /install/openedge/response.ini -l /install/install_oe.log -n && \
