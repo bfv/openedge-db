@@ -85,19 +85,6 @@ jobs:
           rm response.ini
           ls -l 
       
-      - name: Execute test build
-        run: |
-          ls -l 
-          mkdir artifacts
-          docker run \
-            -v ${PWD}/src/src:/app/src \
-            -v ${PWD}/artifacts:/artifacts \
-            -v ${PWD}/src/progress.cfg:/usr/dlc/progress.cfg \
-            ${{env.IMAGE_NAME}} \
-            /app/src/scripts/build.sh
-          ls -l artifacts
-          cat artifacts/sports2020.rcode.list
-
       - name: Login to registry
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc  # v2.2.0
         with:
