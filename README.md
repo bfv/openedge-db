@@ -88,3 +88,6 @@ services:
       - DBNAME=sports2020
 ```
 
+## .lk file handling
+If an .lk file is found upon running the container the container exits, unless you set the `DEL_LK_FILE` to true. (f.e. `--env DEL_LK_FILE=true`)
+

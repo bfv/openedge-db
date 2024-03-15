@@ -48,9 +48,14 @@ function getDbname() {
 
 function initDb() {
 
-    if [[ -f ${DBNAME}.lk ]]; then
-        echo ${DBNAME}.lk found, exiting...
-        exit 1
+    if [[ -f ${DBNAME}.lk ]] ; then
+
+        if [[ "${DEL_LK_FILE}" == "true" ]]; then
+            rm -f ${DBNAME}.lk
+        else
+            echo ${DBNAME}.lk found, exiting...
+            exit 1
+        fi
     fi
 
     if [[ ! -f ${DBNAME}.db ]]; then 
@@ -64,9 +69,9 @@ function initDb() {
         fi
 
         if [[ -f ${DBNAME}.df ]] && [[ -f ${DBNAME}.st ]] ; then 
-          echo "db not found, create one" >> dbstart.log
-          $DLC/ant/bin/ant -f /app/scripts/database-tasks.xml -lib $DLC/pct/PCT.jar -DDBNAME=${DBNAME} createdb
-          $HASH ${DBNAME}.df > ${DBNAME}.schema.hash
+            echo "db not found, create one" >> dbstart.log
+            $DLC/ant/bin/ant -f /app/scripts/database-tasks.xml -lib $DLC/pct/PCT.jar -DDBNAME=${DBNAME} createdb
+            $HASH ${DBNAME}.df > ${DBNAME}.schema.hash
         else
             echo database \"${DBNAME}\" not found, no df for building db found
             exit 1
@@ -91,6 +96,13 @@ function initDb() {
         fi
 
     fi
+
+    # if no db.pf found, copy default
+    if [[ ! -f db.pf ]]; then
+        cp /app/scripts/db.pf /app/db/
+    fi
+
+
 }
 
 HASH=/app/scripts/create-hash.sh
