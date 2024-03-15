@@ -10,7 +10,7 @@ on:
         required: true
       imagetag:
         type: string
-        description: "enter postfix for image name"
+        description: "enter tag for image"
         default: "latest"
         required: true
               
@@ -30,7 +30,7 @@ jobs:
           echo image prefix: ${{ vars.IMAGE_PREFIX }}
     
       - name: Checkout repository
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8         # v3.1.0
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
         with:
           path: src
   
@@ -75,7 +75,7 @@ jobs:
           ls -l 
       
       - name: Login to registry
-        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc  # v2.2.0
+        uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20  # v3.1.0
         with:
           registry: ${{ vars.REGISTRY_DOMAIN }}
           username: ${{ secrets.REGISTRY_USERNAME }}
