@@ -58,7 +58,7 @@ jobs:
         run: |
           jdk=`jq -r ".jdk${FLATVERSION}" src/jdk-versions.json`
           echo JDK: $jdk
-          sed -i "s/JDKVERSION/$jdk/g" src/Dockerfile
+          sed -i "s/JDKVERSION/$jdk/g" src/Dockerfile-gh
           echo download jdk from Dockerfile:
           cat src/Dockerfile | grep temurin
       
