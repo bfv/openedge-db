@@ -19,7 +19,7 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8         # v3.1.0
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
         with:
           path: src
 
@@ -62,17 +62,3 @@ jobs:
           rm response.ini
           ls -l 
       
-      # - name: Execute test build
-      #   run: |
-      #     ls -l 
-      #     mkdir artifacts
-      #     docker run \
-      #       -v ${PWD}/src/src:/app/src \
-      #       -v ${PWD}/artifacts:/artifacts \
-      #       -v ${PWD}/src/progress.cfg:/usr/dlc/progress.cfg \
-      #       openedge-db:${{env.OPENEDGE_VERSION}} \
-      #       /app/src/scripts/build.sh
-      #     ls -l artifacts
-      #     cat artifacts/sports2020.rcode.list
-          
-  
