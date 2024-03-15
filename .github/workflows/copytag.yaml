@@ -1,0 +1,36 @@
+name: Copy Docker tag
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_tag:
+        type: string
+        description: "source tag"
+        default: "12.8.1"
+        required: true
+      target_tag:
+        type: string
+        description: "target tag"
+        default: "latest"
+        required: true
+
+jobs:
+    copy:
+        runs-on: ubuntu-latest
+        steps:
+
+            - name: Login to registry
+              uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc  # v2.2.0
+              with:
+                registry: ${{ vars.REGISTRY_DOMAIN }}
+                username: ${{ secrets.REGISTRY_USERNAME }}
+                password: ${{ secrets.REGISTRY_PASSWORD }}
+            
+            - name: Copy docker tag
+              run: |
+                echo "Copying tag ${{ github.event.inputs.source_tag }} to ${{ github.event.inputs.target_tag }}"
+                docker pull ${{ vars.REGISTRY_DOMAIN }}/${{ vars.IMAGE_PREFIX}}openedge-db:${{ github.event.inputs.source_tag }}
+                docker tag ${{ vars.REGISTRY_DOMAIN }}/${{ vars.IMAGE_PREFIX}}openedge-db:${{ github.event.inputs.source_tag }} ${{ vars.REGISTRY_DOMAIN }}/${{ vars.IMAGE_PREFIX}}openedge-db:${{ github.event.inputs.target_tag }}
+                docker push ${{ vars.REGISTRY_DOMAIN }}/${{ vars.IMAGE_PREFIX}}openedge-db:${{ github.event.inputs.target_tag }}
+
+
