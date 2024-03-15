@@ -13,24 +13,13 @@ on:
         description: "enter postfix for image name"
         default: "latest"
         required: true
-      # targetregistry:
-      #   type: choice
-      #   description: Choose target image registry
-      #   default: "dockerhub-devbfvio"
-      #   required: true
-      #   options:
-      #     - dockerhub-devbfvio
-      #     - flusso-boostermeyer
               
-run-name: publish openedge-db:${{ inputs.openedgeversion }} to docker.io/devbfvio
+run-name: publish openedge-db ${{ inputs.openedgeversion }} to docker.io/devbfvio:${{ github.event.inputs.imagetag }}
 
 jobs:
   publish:
 
     runs-on: ubuntu-latest
-
-    # environment:
-    #     name: ${{ github.event.inputs.targetregistry }}
 
     steps:
       - name: display info
