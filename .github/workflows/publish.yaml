@@ -22,7 +22,7 @@ on:
       #     - dockerhub-devbfvio
       #     - flusso-boostermeyer
               
-run-name: publish openedge-db:${{ inputs.openedgeversion }} to ${{ github.event.inputs.targetregistry }}
+run-name: publish openedge-db:${{ inputs.openedgeversion }} to docker.io/devbfvio
 
 jobs:
   publish:
@@ -76,7 +76,7 @@ jobs:
       - name: Build docker image
         run: |
           cd src
-          docker build if Dockerfile-gh -t ${{env.IMAGE_NAME}} .
+          docker build -f Dockerfile-gh -t ${{env.IMAGE_NAME}} .
 
       - name: Remove installer files
         run: |
