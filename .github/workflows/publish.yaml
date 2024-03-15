@@ -52,7 +52,7 @@ jobs:
           echo flattened minor version: $flatversion
           echo "FLATVERSION=${flatversion}" >> $GITHUB_ENV
           echo "OPENEDGE_VERSION=${{ inputs.openedgeversion }}" >> $GITHUB_ENV
-          echo "IMAGE_NAME=${{ vars.REGISTRY_DOMAIN }}/${{ vars.IMAGE_PREFIX}}openedge-compiler:${{ github.event.inputs.imagetag }}" >> $GITHUB_ENV
+          echo "IMAGE_NAME=${{ vars.REGISTRY_DOMAIN }}/${{ vars.IMAGE_PREFIX}}openedge-db:${{ github.event.inputs.imagetag }}" >> $GITHUB_ENV
 
       - name: Insert JDK version in Dockerfile
         run: |
