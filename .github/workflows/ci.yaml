@@ -35,7 +35,7 @@ jobs:
         run: |
           jdk=`jq -r ".jdk${FLATVERSION}" src/jdk-versions.json`
           echo JDK: $jdk
-          sed -i "s/JDKVERSION/$jdk/g" src/Dockerfile
+          sed -i "s/JDKVERSION/$jdk/g" src/Dockerfile-gh
           echo download jdk from Dockerfile:
           cat src/Dockerfile | grep temurin
   
@@ -53,7 +53,7 @@ jobs:
       - name: Build docker image
         run: |
           cd src
-          docker build -f src/Dockerfile-gh -t openedge-db:${{env.OPENEDGE_VERSION}} .
+          docker build -f Dockerfile-gh -t openedge-db:${{env.OPENEDGE_VERSION}} .
 
       - name: Remove installer files
         run: |
