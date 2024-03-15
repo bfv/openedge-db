@@ -35,7 +35,8 @@ jobs:
     steps:
       - name: display info
         run: |
-          echo publish openedge-db:${{ github.event.inputs.openedgeversion }}
+          echo openedge version: ${{ github.event.inputs.openedgeversion }}
+          echo publish openedge-db:${{ github.event.inputs.imagetag }}
           # echo target registry: ${{ github.event.inputs.targetregistry }}
           echo image prefix: ${{ vars.IMAGE_PREFIX }}
     
@@ -75,7 +76,7 @@ jobs:
       - name: Build docker image
         run: |
           cd src
-          docker build -t ${{env.IMAGE_NAME}} .
+          docker build if Dockerfile-gh -t ${{env.IMAGE_NAME}} .
 
       - name: Remove installer files
         run: |
