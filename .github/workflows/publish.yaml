@@ -1,0 +1,109 @@
+name: Publish image
+
+on:
+  workflow_dispatch:
+    inputs:
+      openedgeversion:
+        type: string
+        description: "enter OpenEdge version (x.y.z, f.e. 12.7.0)"
+        default: "12.8.1"
+        required: true
+      imagetag:
+        type: string
+        description: "enter postfix for image name"
+        default: "latest"
+        required: true
+      # targetregistry:
+      #   type: choice
+      #   description: Choose target image registry
+      #   default: "dockerhub-devbfvio"
+      #   required: true
+      #   options:
+      #     - dockerhub-devbfvio
+      #     - flusso-boostermeyer
+              
+run-name: publish openedge-db:${{ inputs.openedgeversion }} to ${{ github.event.inputs.targetregistry }}
+
+jobs:
+  publish:
+
+    runs-on: ubuntu-latest
+
+    # environment:
+    #     name: ${{ github.event.inputs.targetregistry }}
+
+    steps:
+      - name: display info
+        run: |
+          echo publish openedge-db:${{ github.event.inputs.openedgeversion }}
+          # echo target registry: ${{ github.event.inputs.targetregistry }}
+          echo image prefix: ${{ vars.IMAGE_PREFIX }}
+    
+      - name: Checkout repository
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8         # v3.1.0
+        with:
+          path: src
+  
+      - name: Get version info
+        run: |
+          v=${{ inputs.openedgeversion }}
+          flatversion=`echo ${v%\.*} | sed "s/\.//g"`
+          echo flattened minor version: $flatversion
+          echo "FLATVERSION=${flatversion}" >> $GITHUB_ENV
+          echo "OPENEDGE_VERSION=${{ inputs.openedgeversion }}" >> $GITHUB_ENV
+          echo "IMAGE_NAME=${{ vars.REGISTRY_DOMAIN }}/${{ vars.IMAGE_PREFIX}}openedge-compiler:${{ github.event.inputs.imagetag }}" >> $GITHUB_ENV
+
+      - name: Insert JDK version in Dockerfile
+        run: |
+          jdk=`jq -r ".jdk${FLATVERSION}" src/jdk-versions.json`
+          echo JDK: $jdk
+          sed -i "s/JDKVERSION/$jdk/g" src/Dockerfile
+          echo download jdk from Dockerfile:
+          cat src/Dockerfile | grep temurin
+      
+      - name: Download installer files
+        run: |
+          docker run -v ${PWD}/src:/target devbfvio/oeinstaller:${{env.OPENEDGE_VERSION}}
+        
+      - name: Get response.ini  # get progress.cfg from secret PROGRESS_CFG_122
+        run: |
+          echo fetching response.ini/progress.cfg from secret RESPONSE_INI_${{env.FLATVERSION}}
+          echo "${{ secrets[format('RESPONSE_INI_{0}', env.FLATVERSION)] }}" > src/response.ini
+          echo "${{ secrets[format('PROGRESS_CFG_{0}', env.FLATVERSION)] }}" | base64 --decode > src/progress.cfg
+          ls -l src
+
+      - name: Build docker image
+        run: |
+          cd src
+          docker build -t ${{env.IMAGE_NAME}} .
+
+      - name: Remove installer files
+        run: |
+          cd src
+          rm -f PROGRESS_*
+          rm response.ini
+          ls -l 
+      
+      - name: Execute test build
+        run: |
+          ls -l 
+          mkdir artifacts
+          docker run \
+            -v ${PWD}/src/src:/app/src \
+            -v ${PWD}/artifacts:/artifacts \
+            -v ${PWD}/src/progress.cfg:/usr/dlc/progress.cfg \
+            ${{env.IMAGE_NAME}} \
+            /app/src/scripts/build.sh
+          ls -l artifacts
+          cat artifacts/sports2020.rcode.list
+
+      - name: Login to registry
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc  # v2.2.0
+        with:
+          registry: ${{ vars.REGISTRY_DOMAIN }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      
+      - name: Push image to registry
+        run: |
+          docker push ${{env.IMAGE_NAME}}
