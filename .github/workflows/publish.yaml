@@ -6,7 +6,7 @@ on:
       openedgeversion:
         type: string
         description: "enter OpenEdge version (x.y.z, f.e. 12.7.0)"
-        default: "12.8.1"
+        default: "12.8.3"
         required: true
       imagetag:
         type: string
