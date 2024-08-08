@@ -101,8 +101,16 @@ function initDb() {
     if [[ ! -f db.pf ]]; then
         cp /app/scripts/db.pf /app/db/
     fi
+}
 
-
+function initLicense() {
+    if [[ -f /app/license/progress.cfg ]]; then
+        cp /app/license/progress.cfg $DLC/progress.cfg
+    fi
+    if [[ ! -f $DLC/progress.cfg ]]; then
+        echo "No license (/usr/dlc/progress.cfg) found, exiting..."
+        exit 1
+    fi  
 }
 
 HASH=/app/scripts/create-hash.sh
@@ -112,6 +120,7 @@ if [[ ${DBNAME} == "" ]]; then
     DBNAME=$(getDbname)
 fi
 
+initLicense
 initDb
 
 trap "stopServer" SIGINT SIGTERM
