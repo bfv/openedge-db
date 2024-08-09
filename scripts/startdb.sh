@@ -15,7 +15,7 @@
 #
 
 function startServer() {
-    proserve /app/db/${DBNAME} -pf /app/db/db.pf
+    ${DLC}/bin/proserve /app/db/${DBNAME} -pf /app/db/db.pf
     echo "database started..."
     ps -ef
 }
@@ -24,7 +24,7 @@ function stopServer() {
     echo "attempt to bring down ${DBNAME} gracefully"
     if [ -f "/app/db/${DBNAME}.lk" ]; then
         echo ".lk found; execute proshut"
-        proshut /app/db/${DBNAME} -by
+        ${DLC}/bin/proshut /app/db/${DBNAME} -by
         echo "database stopped..."
     fi
     exit 0
@@ -125,6 +125,14 @@ function initLicense() {
     echo "license found, proceeding..."
 }
 
+function displayInfo() {
+    echo "  DBNAME: ${DBNAME}"
+    echo "  DEL_LK_FILE: ${DEL_LK_FILE}"
+    echo "  DEFDIR: ${DEFDIR}"
+    echo "  DLC: ${DLC}"
+    echo "  PATH: ${PATH}"
+}
+
 HASH=/app/scripts/create-hash.sh
 DEFDIR=/app/schema
 
@@ -132,6 +140,7 @@ if [[ ${DBNAME} == "" ]]; then
     DBNAME=$(getDbname)
 fi
 
+displayInfo
 initLicense
 initDb
 
