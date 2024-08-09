@@ -104,6 +104,7 @@ function initDb() {
 }
 
 function initLicense() {
+    echo "checking for license..."
     if [[ -f /app/license/progress.cfg ]]; then
         cp /app/license/progress.cfg $DLC/progress.cfg
     fi
@@ -111,6 +112,7 @@ function initLicense() {
         echo "No license (/usr/dlc/progress.cfg) found, exiting..."
         exit 1
     fi  
+    echo "license found, proceeding..."
 }
 
 HASH=/app/scripts/create-hash.sh
