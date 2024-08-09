@@ -7,6 +7,8 @@
     <target name="display_info">
         <property name="DBNAME" value="__unknown__" />
         <echo>database: ${DBNAME}</echo>
+        <property name="MULTITENANT" value="false" />
+        <echo>multitenant: ${MULTITENANT}</echo>
     </target>
 
     <target name="initvars">
@@ -25,7 +27,7 @@
     </target>
 
     <target name="createdb" depends="initvars">       
-        <PCTCreateDatabase dbName="${DBNAME}" destDir="${dbdir}" dlchome="${DLC}" schemaFile="${defdir}/${DBNAME}.df" structFile="${defdir}/${DBNAME}.st" />
+        <PCTCreateDatabase dbName="${DBNAME}" destDir="${dbdir}" dlchome="${DLC}" schemaFile="${defdir}/${DBNAME}.df" structFile="${defdir}/${DBNAME}.st" multiTenant="${MULTITENANT}" />
     </target>
 
     <target name="createdelta" depends="initvars">   

@@ -70,7 +70,17 @@ function initDb() {
 
         if [[ -f ${DBNAME}.df ]] && [[ -f ${DBNAME}.st ]] ; then 
             echo "db not found, create one" >> dbstart.log
-            $DLC/ant/bin/ant -f /app/scripts/database-tasks.xml -lib $DLC/pct/PCT.jar -DDBNAME=${DBNAME} createdb
+
+            if grep -Fq "MULTITENANT yes" ${DBNAME}.df ; then
+                echo "MULTITENANT yes found in ${DBNAME}.df" >> dbstart.log
+                echo "creating multi-tenant db" >> dbstart.log
+                MULTITENANT=true
+            else
+                echo "creating single-tenant db" >> dbstart.log
+                MULTITENANT=false
+            fi
+
+            $DLC/ant/bin/ant -f /app/scripts/database-tasks.xml -lib $DLC/pct/PCT.jar -DDBNAME=${DBNAME} -DMULTITENANT=${MULTITENANT} createdb
             $HASH ${DBNAME}.df > ${DBNAME}.schema.hash
         else
             echo database \"${DBNAME}\" not found, no df for building db found
