@@ -112,7 +112,7 @@ function initDb() {
         TABLES=$(cat /app/data/tables.txt)
         echo "loading data"
         echo "tables: ${TABLES}"
-        $DLC/ant/bin/ant -f /app/scripts/database-tasks.xml -lib $DLC/pct/PCT.jar -DDBNAME=${DBNAME} -Dtables=${TABLES} loadData
+        $DLC/ant/bin/ant -f /app/scripts/database-tasks.xml -lib $DLC/pct/PCT.jar -DDBNAME=${DBNAME} -Dtables="${TABLES}" loadData
     fi
 
     # if no db.pf found, copy default
