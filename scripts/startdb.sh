@@ -80,7 +80,7 @@ function initDb() {
                 MULTITENANT=false
             fi
 
-            $DLC/ant/bin/ant -f /app/scripts/database-tasks.xml -lib $DLC/pct/PCT.jar -DDBNAME=${DBNAME} -DMULTITENANT=${MULTITENANT} createdb
+            
             $HASH ${DBNAME}.df > ${DBNAME}.schema.hash
         else
             echo database \"${DBNAME}\" not found, no df for building db found
@@ -105,6 +105,14 @@ function initDb() {
             echo ${DEFDIR}/${DBNAME}.df not found
         fi
 
+    fi
+
+    # optional .d data load
+    if [[ -f /app/data/tables.txt ]]; then
+        TABLES=$(cat /app/data/tables.txt)
+        echo "loading data"
+        echo "tables: ${TABLES}"
+        $DLC/ant/bin/ant -f /app/scripts/database-tasks.xml -lib $DLC/pct/PCT.jar -DDBNAME=${DBNAME} -Dtables=${TABLES} loadData
     fi
 
     # if no db.pf found, copy default
