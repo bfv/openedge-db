@@ -3,6 +3,7 @@
 
 | tag | date | notes |
 |----------|----------|----------|
+| 12.8.3.1 | 2024-08-23 | added .d loading |
 | 12.8.3 | 2024-08-09 | added optional license copy
 |        |            | added automatic multi tenancy enabling |
 |        |            | added release notes | 
