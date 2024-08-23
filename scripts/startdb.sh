@@ -80,7 +80,7 @@ function initDb() {
                 MULTITENANT=false
             fi
 
-            
+            $DLC/ant/bin/ant -f /app/scripts/database-tasks.xml -lib $DLC/pct/PCT.jar -DDBNAME=${DBNAME} createdb            
             $HASH ${DBNAME}.df > ${DBNAME}.schema.hash
         else
             echo database \"${DBNAME}\" not found, no df for building db found
