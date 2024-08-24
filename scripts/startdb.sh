@@ -69,14 +69,14 @@ function initDb() {
         fi
 
         if [[ -f ${DBNAME}.df ]] && [[ -f ${DBNAME}.st ]] ; then 
-            echo "db not found, create one" >> dbstart.log
+            echo "db not found, create one" 
 
             if grep -Fq "MULTITENANT yes" ${DBNAME}.df ; then
-                echo "MULTITENANT yes found in ${DBNAME}.df" >> dbstart.log
-                echo "creating multi-tenant db" >> dbstart.log
+                echo "MULTITENANT yes found in ${DBNAME}.df"
+                echo "creating multi-tenant db"
                 MULTITENANT=true
             else
-                echo "creating single-tenant db" >> dbstart.log
+                echo "creating single-tenant db"
                 MULTITENANT=false
             fi
 
@@ -105,6 +105,14 @@ function initDb() {
             echo ${DEFDIR}/${DBNAME}.df not found
         fi
 
+    fi
+
+    # optional .d data load
+    if [[ -f /app/data/tables.txt ]]; then
+        TABLES=$(cat /app/data/tables.txt)
+        echo "loading data"
+        echo "tables: ${TABLES}"
+        $DLC/ant/bin/ant -f /app/scripts/database-tasks.xml -lib $DLC/pct/PCT.jar -DDBNAME=${DBNAME} -Dtables="${TABLES}" loadData
     fi
 
     # if no db.pf found, copy default

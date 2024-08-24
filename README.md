@@ -18,7 +18,7 @@ For example:
 docker run -d ^
     -v c:/sports2020/db:/app/db ^
     -v c:/sports2020/schema:/app/schema ^
-    -v c:sports2020/progress.cfg:/usr/dlc/progress.cfg ^
+    -v c:/sports2020/progress.cfg:/usr/dlc/progress.cfg ^
     -p 10000-10010:10000-10010
     --env DBNAME=sports2020 ^
     docker.io/devbfvio/openedge-db:12.8.0
@@ -31,6 +31,10 @@ The scripts in the container operate under the assumption that the env var `DBNA
 ## schema / structure files
 The `.df` and `.st` files (in either /app/schema or /app/db) should have the same name as the database.
 
+## loading .d data
+The existence of `/app/data/tables.txt` is checked. If `.d` loading is required, this file should contain either a comma separated list of table names  of all tables are to be loaded (or `all` for all tables).
+The `.d` files should be in `/app/data` as well. One can map (`-v` parameter) a folder on the host to `/app/data`.
+ 
 ## startup sequence
 The first thing is establishing the DBNAME. If ${DBNAME} is empty is database name is derived. The first `.db` file is taken to get the database name.
 

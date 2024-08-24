@@ -16,6 +16,7 @@
         <property name="dbdir" location="/app/db" />
         <property name="defdir" location="/app/db" />
         <property name="schemadir" location="/app/schema" />
+        <property name="datadir" location="/app/data" />
         <property name="singleuser" value="true" />
         <property name="online" value="false" />
         <echo>DLC:        $DLC</echo>
@@ -45,4 +46,10 @@
         </PCTLoadSchema>
     </target>
 
+    <target name="loadData" depends="initvars">
+        <PCTLoadData srcDir="${datadir}" dlchome="${DLC}" tables="${tables}">
+          <PCTConnection dbName="${DBNAME}" dbDir="${dbdir}" singleUser="${singleuser}" />
+        </PCTLoadData>
+    </target>
+    
 </project>
