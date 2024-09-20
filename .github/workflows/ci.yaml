@@ -14,7 +14,7 @@ jobs:
     
     strategy:
       matrix:
-        version: [ 12.8.3 ]
+        version: [ 12.8.3, 12.8.4 ]
     
     steps:
 
@@ -23,14 +23,18 @@ jobs:
         with:
           path: src
 
-      - name: Get version info
-        run: |
-          v=${{matrix.version}}
-          flatversion=`echo ${v%\.*} | sed "s/\.//g"`
-          echo flattened minor version: $flatversion
-          echo "FLATVERSION=${flatversion}" >> $GITHUB_ENV
-          echo "OPENEDGE_VERSION=${{matrix.version}}" >> $GITHUB_ENV
+      - name: Get OpenEdge version
+        id: get-oeversion
+        uses: bfv/openedge-flatversion@49ecdca1670447fcf715c0b505607ec17dc59b62  # v1.2.1
+        with:
+          version: ${{matrix.version}}
 
+      - name: Version to env
+        run: |
+          echo "FLATVERSION=${{ steps.get-oeversion.outputs.flat-version }}" >> $GITHUB_ENV
+          echo "OPENEDGE_VERSION=${{matrix.version}}" >> $GITHUB_ENV
+          echo "OPENEDGE_BASE_VERSION=${{ steps.get-oeversion.outputs.base-version }}" >> $GITHUB_ENV
+  
       - name: Insert JDK version in Dockerfile
         run: |
           jdk=`jq -r ".jdk${FLATVERSION}" src/jdk-versions.json`
@@ -41,7 +45,7 @@ jobs:
   
       - name: Download installer files
         run: |
-          docker run -v ${PWD}/src:/target devbfvio/oeinstaller:${{env.OPENEDGE_VERSION}}
+          src/scripts/download-openedge.sh
       
       - name: Get response.ini  # get progress.cfg from secret PROGRESS_CFG_122
         run: |
