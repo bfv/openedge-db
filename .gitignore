@@ -3,6 +3,6 @@ test*/
 schema*/
 
 
-*.tar.gz
+*_64.tar.gz
 *.ini
 *.cfg
