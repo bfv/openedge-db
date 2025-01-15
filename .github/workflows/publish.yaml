@@ -5,8 +5,8 @@ on:
     inputs:
       openedgeversion:
         type: string
-        description: "enter OpenEdge version (x.y.z, f.e. 12.7.0)"
-        default: "12.8.3"
+        description: "enter OpenEdge version (x.y.z, f.e. 12.8.0)"
+        default: "12.8.4"
         required: true
       imagetag:
         type: string

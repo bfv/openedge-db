@@ -99,10 +99,10 @@ services:
 ## .lk file handling
 If an .lk file is found upon running the container the container exits, unless you set the `DEL_LK_FILE` to true. (f.e. `--env DEL_LK_FILE=true`)
 
-# multi tenancy
+## multi tenancy
 When a db is created the `.df` is scanned for `MULTITENANT yes`. If found, the db is created as a multi tenant db.
 
-# progress.cfg license file
+## progress.cfg license file
 With Docker (compose) it is possible to do 
 ```
 -v c:/docker/license/oe-12.8/oe128-db-dev-progress.cfg:/usr/dlc/progress.cfg
@@ -110,6 +110,8 @@ With Docker (compose) it is possible to do
 In other words, volume the `progress.cfg` file into `/usr/dlc/progress.cfg`.
 However, this does not work on Kubernetes. As an alternative, the `startdb.sh` startup script checks if `/app/license/progress.cfg` exists and if so, copies it to `/usr/dlc/progress.cfg`. 
 
-# Kubernetes
+## Kubernetes
 See: [kubernetes.md](kubernetes.md)
 
+# maintained versions
+As of 2025-01-15 OpenEdge versions pre-dating 12.8 are no longer maintained and references are removed.
