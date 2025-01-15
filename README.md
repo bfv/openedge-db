@@ -10,6 +10,7 @@ The following volumes are important for running the database:
 
 `/app/db` - the db files will reside here
 `/app/schema` - the location where `.df` and/or `.st` files are located
+`/app/data` - the location of the .d files
 `/usr/dlc/progress.cfg` - location where the `.cfg` file MUST reside (otherwise ESM kicks in)
 
 When running the container these volume are mapped via the `-v` parameter.
@@ -18,10 +19,11 @@ For example:
 docker run -d ^
     -v c:/sports2020/db:/app/db ^
     -v c:/sports2020/schema:/app/schema ^
+    -v c:/sports2020/data:/app/data ^
     -v c:/sports2020/progress.cfg:/usr/dlc/progress.cfg ^
     -p 10000-10010:10000-10010
     --env DBNAME=sports2020 ^
-    docker.io/devbfvio/openedge-db:12.8.0
+    docker.io/devbfvio/openedge-db:12.8.4
 ```
 
 ## database name
