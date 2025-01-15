@@ -6,7 +6,7 @@ on:
       source_tag:
         type: string
         description: "source tag"
-        default: "12.8.3"
+        default: "12.8.4"
         required: true
       target_tag:
         type: string

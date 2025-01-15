@@ -1,7 +1,9 @@
+# this is for local testing only
+
 FROM ubuntu:22.04 AS install
 
 ENV JAVA_HOME=/opt/java/openjdk
-COPY --from=eclipse-temurin:17.0.9_9-jdk $JAVA_HOME $JAVA_HOME
+COPY --from=eclipse-temurin:17.0.13_11-jdk $JAVA_HOME $JAVA_HOME
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 ADD PROGRESS_OE.tar.gz /install/openedge/
@@ -13,9 +15,6 @@ ENV TERM=xterm
 
 RUN /install/install-openedge.sh
 RUN cat /install/install_oe.log
-
-# 12.8 FCS has a PCT issue with dumping .df files:
-#COPY PCT-227.jar /usr/dlc/pct/PCT.jar
 
 # multi stage build, this give the possibilty to remove all the slack from stage 0
 FROM ubuntu:22.04 AS instance
