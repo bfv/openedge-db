@@ -4,14 +4,15 @@ ENV JAVA_HOME=/opt/java/openjdk
 COPY --from=eclipse-temurin:17.0.9_9-jdk $JAVA_HOME $JAVA_HOME
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
-ADD PROGRESS_OE_12.8.3_LNX_64.tar.gz /install/openedge
+ADD PROGRESS_OE.tar.gz /install/openedge/
+ADD PROGRESS_PATCH_OE.tar.gz /install/patch/
+ADD scripts/install-openedge.sh /install/
 
 COPY oe128-db-dev-response.ini /install/openedge/response.ini
 ENV TERM=xterm
 
-RUN /install/openedge/proinst -b /install/openedge/response.ini -l /install/install_oe.log -n && \
-    cat /install/install_oe.log && \
-    rm /usr/dlc/progress.cfg
+RUN /install/install-openedge.sh
+RUN cat /install/install_oe.log
 
 # 12.8 FCS has a PCT issue with dumping .df files:
 #COPY PCT-227.jar /usr/dlc/pct/PCT.jar
