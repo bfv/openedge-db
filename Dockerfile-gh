@@ -53,6 +53,9 @@ RUN groupadd -g 1000 openedge && \
 RUN chown root:openedge $DLC
 RUN chmod 775 $DLC
 
+RUN touch /usr/dlc/progress.cfg  && \
+    chown openedge:openedge /usr/dlc/progress.cfg
+
 # create directories and files as root
 RUN \
   mkdir /app/ && \

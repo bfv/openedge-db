@@ -1,1 +1,2 @@
 db      10000/tcp           # brokerport for db
+pas     8810/tcp            # brokerport for pas
