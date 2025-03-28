@@ -123,9 +123,11 @@ function initDb() {
 
 function initLicense() {
     echo "checking for license"
+    ls -l /app/license
     if [[ -f /app/license/progress.cfg ]]; then
         echo "license found in /app/license, copying to /usr/dlc/progress.cfg"
         cp /app/license/progress.cfg $DLC/progress.cfg
+        ls -l /usr/dlc/progress.*
     fi
     if [[ ! -f $DLC/progress.cfg ]]; then
         echo "No license (/usr/dlc/progress.cfg) found, exiting..."
