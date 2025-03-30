@@ -16,7 +16,7 @@ jobs:
     # a base installation on top of which >= 12.8.4 is installed.
     strategy:
       matrix:
-        version: [ 12.8.3, 12.8.4 ]
+        version: [ 12.8.3, 12.8.6 ]
     
     steps:
 
