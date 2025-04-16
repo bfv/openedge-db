@@ -44,13 +44,12 @@ RUN chown root _* && \
     chmod 755 _sql* && \
     chmod -f 755 _waitfor || true
 
-ENV TERM=xterm
 ENV PATH=$DLC:$DLC/bin:$PATH:${JAVA_HOME}/bin:${PATH}
 
 RUN groupadd -g 1000 openedge && \
     useradd -r -u 1000 -g openedge openedge
 
-# allow for progress to be copied into $DLC
+# allow for progress.cfg to be copied into $DLC
 # kubernetes does not support volume mount of single files
 RUN chown root:openedge $DLC
 RUN chmod 775 $DLC

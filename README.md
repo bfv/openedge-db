@@ -4,6 +4,7 @@
 see: [release notes](release-notes)<br/>
 
 This docker images facilitates running an OpenEdge db in a Docker container. Apart from this it facilitates builing and/or updating the database from a given `.df`/`.st`.
+IMPORTANT: All files should LF delimited (not CRLF) and end with an LF!
 
 ## volumes
 The following volumes are important for running the database:
@@ -67,7 +68,7 @@ This file should container at least:
 -maxport 10010
 ```
 
-You can use whatever ports you like.
+You can use whatever ports you like. The in- and outside container port must be equal. You cannot map port the usual way (`-p 9000-9010:10000-10010` won't work). Consult your OpenEdge Docker expert for more details.
 
 ## stopping the database
 The database is gracefully shut down whenever an `SIGINT` or `SIGTERM` signal is sent to the container.

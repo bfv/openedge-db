@@ -19,7 +19,7 @@
         <property name="datadir" location="/app/data" />
         <property name="singleuser" value="true" />
         <property name="online" value="false" />
-        <echo>DLC:        $DLC</echo>
+        <echo>DLC:        ${DLC}</echo>
         <echo>dbdir:      ${dbdir}</echo>
         <echo>defdir:     ${defdir}</echo>
         <echo>schemadir:  ${schemadir}</echo>
