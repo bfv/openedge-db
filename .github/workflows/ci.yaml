@@ -10,7 +10,7 @@ permissions:
 jobs:
   build:
     
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     
     # 12.8.3 was the latest version with a full installer. 12.8.4 is a patch release, which requires 
     # a base installation on top of which >= 12.8.4 is installed.
