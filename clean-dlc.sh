@@ -1,7 +1,6 @@
 rm -rf /usr/dlc/*OpenEdge*
 rm -f  /usr/dlc/ade.pf
 rm -rf /usr/dlc/ant/manual
-rm -f  /usr/dlc/empty*
 rm -rf /usr/dlc/gradle
 rm -f  /usr/dlc/inst_hlp
 #rm -rf /usr/dlc/install*  ## DO NOT DELETE FOR 12.8
