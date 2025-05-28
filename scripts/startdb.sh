@@ -15,7 +15,7 @@
 #
 
 function startServer() {
-    ${DLC}/bin/proserve /app/db/${DBNAME} -pf /app/db/db.pf
+    ${DLC}/bin/proserve /app/db/${DBNAME} -pf /app/db/db.pf -pf /app/tmp/dbports.pf
     echo "database started..."
     ps -ef
 }
@@ -118,6 +118,23 @@ function initDb() {
     # if no db.pf found, copy default
     if [[ ! -f db.pf ]]; then
         cp /app/scripts/db.pf /app/db/
+    fi
+
+    touch /app/tmp/dbports.pf
+    if [[ -n "${SERVERPORT}" ]]; then
+
+      if [[ -z "${MINPORT}" ]]; then
+        MINPORT=$((SERVERPORT+1))
+      fi
+
+      if [[ -z "${MAXPORT}" ]]; then
+        MAXPORT=$((SERVERPORT+9))
+      fi
+
+      echo "using ports:"
+      echo "-S ${SERVERPORT} -minport ${MINPORT} -maxport ${MAXPORT} " > /app/tmp/dbports.pf
+        
+      cat /app/tmp/dbports.pf
     fi
 }
 

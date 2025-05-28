@@ -3,6 +3,8 @@
 
 | tag | date | notes |
 |----------|----------|----------|
+| 12.8.7.1 | 2025-05-28 | added setting -S via SERVERPORT |
+| 12.8.7 | 2025-05-16 | OpenEdge update |
 | 12.8.6.1 | 2025-04-16 | added /app/data dir 
 | ... | ... | ... |
 | 12.8.3.1 | 2024-08-23 | added .d loading |

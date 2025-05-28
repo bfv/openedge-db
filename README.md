@@ -70,6 +70,11 @@ This file should container at least:
 
 You can use whatever ports you like. The in- and outside container port must be equal. You cannot map port the usual way (`-p 9000-9010:10000-10010` won't work). Consult your OpenEdge Docker expert for more details.
 
+## setting ports via env vars
+Apart from the above mentioned `db.pf`, since 12.8.7.1 there's also the possibility to set `-S`, `-minport` and `-maxport` via environment variables:
+`--env SERVERPORT=9000` set the `-S` to 9000. If not else is specified, `-minport` is set to `-S`+1 and `-maxport` to `-S`+9.
+`--env MINPORT=9001` and `--env MAXPORT=9009` can be used as well, to set your custom port range. Setting these is done in the `docker run` command.
+
 ## stopping the database
 The database is gracefully shut down whenever an `SIGINT` or `SIGTERM` signal is sent to the container.
 `proshut` executes and the db goes down, no `.lk` is left. Ready for the next start up.
