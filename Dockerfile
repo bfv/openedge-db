@@ -1,6 +1,6 @@
 # this is for local testing only
 
-FROM ubuntu:22.04 AS install
+FROM ubuntu:24.04 AS install
 
 ENV JAVA_HOME=/opt/java/openjdk
 COPY --from=eclipse-temurin:17.0.13_11-jdk $JAVA_HOME $JAVA_HOME
@@ -19,7 +19,7 @@ RUN cat /install/install_oe.log
 RUN rm -f /usr/dlc/progress.cfg 
 
 # multi stage build, this give the possibilty to remove all the slack from stage 0
-FROM ubuntu:22.04 AS instance
+FROM ubuntu:24.04 AS instance
 
 LABEL maintainer="Bronco Oostermeyer <dev@bfv.io>"
 
@@ -46,7 +46,10 @@ RUN chown root _* && \
 
 ENV PATH=$DLC:$DLC/bin:$PATH:${JAVA_HOME}/bin:${PATH}
 
-RUN groupadd -g 1000 openedge && \
+# ubuntu 24.04 has the user ubuntu as user 1000, which is not compatible with the openedge installation
+# this user is removed and replaced with a new user openedge with uid 1000
+RUN userdel -r ubuntu && \
+    groupadd -g 1000 openedge && \
     useradd -r -u 1000 -g openedge openedge
 
 # allow for progress.cfg to be copied into $DLC
