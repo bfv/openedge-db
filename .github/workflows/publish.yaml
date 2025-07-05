@@ -6,12 +6,12 @@ on:
       openedgeversion:
         type: string
         description: "enter OpenEdge version (x.y.z, f.e. 12.8.0)"
-        default: "12.8.7"
+        default: "12.8.8"
         required: true
       imagetag:
         type: string
         description: "enter tag for image"
-        default: "12.8.7.x"
+        default: "12.8.8.x"
         required: true
               
 run-name: publish openedge-db ${{ inputs.openedgeversion }} to docker.io/devbfvio:${{ github.event.inputs.imagetag }}

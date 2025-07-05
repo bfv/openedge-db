@@ -50,7 +50,8 @@ RUN chown root _* && \
 
 ENV PATH=$DLC:$DLC/bin:$PATH:${JAVA_HOME}/bin:${PATH}
 
-RUN groupadd -g 1000 openedge && \
+RUN userdel -r ubuntu && \
+    groupadd -g 1000 openedge && \
     useradd -r -u 1000 -g openedge openedge
 
 # allow for progress.cfg to be copied into $DLC
