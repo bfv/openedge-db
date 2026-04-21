@@ -37,6 +37,7 @@ The `.df` and `.st` files (in either /app/schema or /app/db) should have the sam
 ## loading .d data
 The existence of `/app/data/tables.txt` is checked. If `.d` loading is required, this file should contain either a comma separated list of table names  of all tables are to be loaded (or `all` for all tables).
 The `.d` files should be in `/app/data` as well. One can map (`-v` parameter) a folder on the host to `/app/data`.
+IMPORTANT: put everything on one line WITHOUT an LF or CRLF
  
 ## startup sequence
 The first thing is establishing the DBNAME. If ${DBNAME} is empty is database name is derived. The first `.db` file is taken to get the database name.

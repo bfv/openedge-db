@@ -23,6 +23,7 @@
         <echo>dbdir:      ${dbdir}</echo>
         <echo>defdir:     ${defdir}</echo>
         <echo>schemadir:  ${schemadir}</echo>
+        <echo>datadir:    ${datadir}</echo>
         <echo>singleuser: ${singleuser}</echo>
         <echo>online:     ${online}</echo>
     </target>

@@ -3,8 +3,9 @@
 
 | tag | date | notes |
 |----------|----------|----------|
-| 12.8.8   | 2025-07-05 | Ubuntu to 24.04
-|          |            | JDK to 17.0.15_6
+| 13.0.0   | 2026-02-19 | first 13 release, bumped JDK to 17.0.18_8 |
+| 12.8.8   | 2025-07-05 | Ubuntu to 24.04 |
+|          |            | JDK to 17.0.15_6 |
 | 12.8.7.1 | 2025-05-28 | added setting -S via SERVERPORT |
 | 12.8.7 | 2025-05-16 | OpenEdge update |
 | 12.8.6.1 | 2025-04-16 | added /app/data dir 
