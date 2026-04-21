@@ -5,7 +5,7 @@ rm -rf /usr/dlc/gradle
 rm -f  /usr/dlc/inst_hlp
 #rm -rf /usr/dlc/install*  ## DO NOT DELETE FOR 12.8
 rm -f /usr/dlc/install/esam/*
-
+rm -f /usr/dlc/java/ext/*
 rm -rf /usr/dlc/odbc
 #rm -rf /usr/dlc/perl
 rm -rf /usr/dlc/prohelp
