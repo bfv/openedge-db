@@ -7,7 +7,6 @@ COPY --from=eclipse-temurin:17.0.20_8-jdk $JAVA_HOME $JAVA_HOME
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 ADD PROGRESS_OE.tar.gz /install/openedge/
-ADD PROGRESS_PATCH_OE.tar.gz /install/patch/
 ADD scripts/install-openedge.sh /install/
 
 COPY oe128-db-dev-response.ini /install/openedge/response.ini
