@@ -36,7 +36,7 @@ jobs:
   
       - name: Get OpenEdge version
         id: get-oeversion
-        uses: bfv/openedge-flatversion@49ecdca1670447fcf715c0b505607ec17dc59b62  # v1.2.1
+        uses: bfv/openedge-flatversion@cd00d571e79c7a7be1d1d0ecce22febb2fb7dd0c  # v1.2.3
         with:
           version: ${{ inputs.openedgeversion }}
   
