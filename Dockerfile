@@ -3,7 +3,7 @@
 FROM ubuntu:24.04 AS install
 
 ENV JAVA_HOME=/opt/java/openjdk
-COPY --from=eclipse-temurin:17.0.13_11-jdk $JAVA_HOME $JAVA_HOME
+COPY --from=eclipse-temurin:17.0.20_8-jdk $JAVA_HOME $JAVA_HOME
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 ADD PROGRESS_OE.tar.gz /install/openedge/
