@@ -1,0 +1,35 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions"
+    },
+    {
+      "matchDepNames": ["ubuntu"],
+      "enabled": false
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "matchDepNames": ["eclipse-temurin"],
+      "enabled": false
+    },
+    {
+      "matchManagers": ["regex"],
+      "matchDepNames": ["eclipse-temurin"],
+      "matchUpdateTypes": ["major", "minor"],
+      "enabled": false
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["^jdk-versions\\.json$"],
+      "matchStrings": ["\"jdk\\d+\":\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "eclipse-temurin",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    }
+  ]
+}
