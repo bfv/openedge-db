@@ -77,9 +77,6 @@ RUN chown -R openedge:openedge /app/
 
 USER openedge
 
-VOLUME /app/db
-VOLUME /app/schema
-
 WORKDIR /app/db
 
 CMD [ "bash", "-c", "/app/scripts/startdb.sh" ]

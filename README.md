@@ -9,7 +9,7 @@ IMPORTANT: All files should LF delimited (not CRLF) and end with an LF!
 ## volumes
 The following volumes are important for running the database:
 
-`/app/db` - the db files will reside here
+`/app/db` - the db files reside here. This path is ephemeral unless it is explicitly mounted.
 `/app/schema` - the location where `.df` and/or `.st` files are located
 `/app/data` - the location of the .d files
 `/usr/dlc/progress.cfg` - location where the `.cfg` file MUST reside (otherwise ESM kicks in)
