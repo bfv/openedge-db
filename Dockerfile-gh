@@ -1,4 +1,4 @@
-FROM ubuntu:24.04 AS install
+FROM ubuntu:26.04 AS install
 
 ENV JAVA_HOME=/opt/java/openjdk
 COPY --from=eclipse-temurin:JDKVERSION $JAVA_HOME $JAVA_HOME
@@ -6,7 +6,6 @@ ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 # the running process (i.e. the github action) is responsible for placing the install .tar 
 # in the correct location
-ADD PROGRESS_OE.tar.gz /install/openedge/
 ADD scripts/install-openedge.sh /install/
 
 COPY response.ini /install/openedge/response.ini
@@ -22,7 +21,7 @@ RUN /install/openedge/clean-dlc.sh
 RUN rm -f /usr/dlc/progress.cfg 
 
 # multi stage build, this give the possibilty to remove all the slack from stage 0
-FROM ubuntu:24.04 AS instance
+FROM ubuntu:26.04 AS instance
 
 LABEL maintainer="Bronco Oostermeyer <dev@bfv.io>"
 
@@ -79,9 +78,6 @@ RUN chmod +x /app/scripts/*.sh
 RUN chown -R openedge:openedge /app/ 
 
 USER openedge
-
-VOLUME /app/db
-VOLUME /app/schema
 
 WORKDIR /app/db
 
