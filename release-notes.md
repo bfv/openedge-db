@@ -3,8 +3,9 @@
 
 | tag | date | notes |
 |----------|----------|----------|
-| 13.0.0   | 2026-02-19 | first 13 release, bumped JDK to 17.0.18_8 |
+| 12.8.12-2 | 2026-09-23 | update to ubuntu 26.04 |
 | 12.8.12-1 | 2026-09-10 | !!removed VOLUME /app/db from Dockerfile!! |
+| 13.0.0   | 2026-02-19 | first 13 release, bumped JDK to 17.0.18_8 |
 | 12.8.8   | 2025-07-05 | Ubuntu to 24.04 |
 |          |            | JDK to 17.0.15_6 |
 | 12.8.7.1 | 2025-05-28 | added setting -S via SERVERPORT |
