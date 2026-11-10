@@ -101,7 +101,15 @@ services:
       - 10000-10010:10000-10010
     environment:
       - DBNAME=sports2020
+    healthcheck:
+      test: ["CMD", "/app/scripts/healthcheck.sh"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 2m
 ```
+
+Use an image version that includes `/app/scripts/healthcheck.sh` (the example tag above may not include it). The check requires `DBNAME` and succeeds when its readable database log contains `(10471)`. Since this marker can remain in the log after startup, the check does not guarantee that the database is still running.
 
 ## .lk file handling
 If an .lk file is found upon running the container the container exits, unless you set the `DEL_LK_FILE` to true. (f.e. `--env DEL_LK_FILE=true`)
