@@ -51,7 +51,7 @@ function initDb() {
     if [[ -f ${DBNAME}.lk ]] ; then
 
         if [[ "${DEL_LK_FILE}" == "true" ]]; then
-            rm -f ${DBNAME}.lk
+            rm -f -- "${DBNAME}.lk" && rm -f -- "${DBNAME}.lg"
         else
             echo ${DBNAME}.lk found, exiting...
             exit 1
