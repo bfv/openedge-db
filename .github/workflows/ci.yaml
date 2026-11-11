@@ -47,12 +47,10 @@ jobs:
         run: |
           src/scripts/download-openedge.sh
       
-      - name: Get response.ini  # get progress.cfg from secret PROGRESS_CFG_122
-        run: |
-          echo fetching response.ini/progress.cfg from secret RESPONSE_INI_${{env.FLATVERSION}}
-          echo "${{ secrets[format('RESPONSE_INI_{0}', env.FLATVERSION)] }}" > src/response.ini
-          echo "${{ secrets[format('PROGRESS_CFG_{0}', env.FLATVERSION)] }}" | base64 --decode > src/progress.cfg
-          ls -l src
+      - name: Get response.ini
+        env:
+          RESPONSE_INI: ${{ secrets[format('RESPONSE_INI_{0}', env.FLATVERSION)] }}
+        run: printf '%s\n' "$RESPONSE_INI" > src/response.ini
 
       - name: Build docker image
         run: |
@@ -60,9 +58,7 @@ jobs:
           docker build -f Dockerfile-gh -t openedge-db:${{env.OPENEDGE_VERSION}} .
 
       - name: Remove installer files
+        if: always()
         run: |
-          cd src
-          rm -f PROGRESS_*
-          rm response.ini
-          ls -l 
+          rm -f src/PROGRESS_* src/response.ini src/progress.cfg
       

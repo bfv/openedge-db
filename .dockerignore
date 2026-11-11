@@ -1,0 +1,11 @@
+*
+!Dockerfile
+!Dockerfile-gh
+!PROGRESS_OE.tar.gz
+!response.ini
+!oe128-db-dev-response.ini
+!scripts/
+!scripts/**
+!protocols
+!services
+!clean-dlc.sh
