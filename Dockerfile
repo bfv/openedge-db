@@ -79,4 +79,7 @@ USER openedge
 
 WORKDIR /app/db
 
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 --start-period=2m \
+  CMD ["/app/scripts/healthcheck.sh"]
+
 CMD [ "bash", "-c", "/app/scripts/startdb.sh" ]
