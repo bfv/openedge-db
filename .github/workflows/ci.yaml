@@ -47,10 +47,13 @@ jobs:
         run: |
           src/scripts/download-openedge.sh
       
-      - name: Get response.ini
+      - name: Get response.ini and progress.cfg
         env:
           RESPONSE_INI: ${{ secrets[format('RESPONSE_INI_{0}', env.FLATVERSION)] }}
-        run: printf '%s\n' "$RESPONSE_INI" > src/response.ini
+          PROGRESS_CFG: ${{ secrets[format('PROGRESS_CFG_{0}', env.FLATVERSION)] }}
+        run: |
+          printf '%s\n' "$RESPONSE_INI" > src/response.ini
+          printf '%s' "$PROGRESS_CFG" | base64 --decode > src/progress.cfg
 
       - name: Build docker image
         run: |
